@@ -14,3 +14,7 @@
 
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+## Сссылка на репозиторий проекта
+
+https://github.com/DezmonDND/express-mesto-gha

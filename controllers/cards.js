@@ -3,7 +3,7 @@ const Card = require('../models/card');
 module.exports.getCards = (req, res) => {
     Card.find({})
         .then(cards => res.send({ data: cards }))
-        .catch(() => { res.status(500).send({ message: '500 — Ошибка по умолчанию.' }) });
+        .catch(() => { res.status(500).send({ message: '500 — На сервере произошла ошибка.' }) });
 };
 
 module.exports.createCard = (req, res) => {
@@ -15,7 +15,7 @@ module.exports.createCard = (req, res) => {
             if (err.name === 'ValidationError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные при создании карточки.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 };
 
@@ -31,7 +31,7 @@ module.exports.deleteCard = (req, res) => {
             if (err.name === 'CastError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные для постановки лайка.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 };
 
@@ -51,7 +51,7 @@ module.exports.likeCard = (req, res) => {
             if (err.name === 'CastError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные для постановки лайка.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 };
 
@@ -71,6 +71,6 @@ module.exports.dislikeCard = (req, res) => {
             if (err.name === 'CastError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные для снятия лайка.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 }

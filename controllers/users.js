@@ -11,14 +11,14 @@ module.exports.createUser = (req, res) => {
             if (err.name === 'ValidationError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные при создании карточки.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 }
 
 module.exports.getUsers = (req, res) => {
     User.find({})
         .then(users => res.send({ data: users }))
-        .catch(() => { res.status(500).send({ message: '500 — Ошибка по умолчанию.' }) });
+        .catch(() => { res.status(500).send({ message: '500 — На сервере произошла ошибка.' }) });
 }
 
 module.exports.getOneUser = (req, res) => {
@@ -33,7 +33,7 @@ module.exports.getOneUser = (req, res) => {
             if (err.name === 'CastError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 }
 
@@ -57,7 +57,7 @@ module.exports.updateUsersData = (req, res) => {
             if (err.name === 'ValidationError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 }
 module.exports.updateAvatar = (req, res) => {
@@ -80,6 +80,6 @@ module.exports.updateAvatar = (req, res) => {
             if (err.name === 'ValidationError') {
                 return res.status(400).send({ message: '400 — Переданы некорректные данные.' });
             }
-            return res.status(500).send({ message: '500 — Ошибка по умолчанию.' });
+            return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
 }

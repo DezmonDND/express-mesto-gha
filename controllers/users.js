@@ -1,11 +1,11 @@
 const User = require('../models/user');
-
-
+const jwt = require('jsonwebtoken');
 
 module.exports.createUser = (req, res) => {
-    const { name, about, avatar } = req.body;
+    const { name, about, avatar, email, password } = req.body;
 
-    User.create({ name, about, avatar })
+    bcrypt.hash(password, 10)
+        .then(hash => User.create({ name, about, avatar, email, password: hash }))
         .then(user => res.status(200).send({ data: user }))
         .catch((err) => {
             if (err.name === 'ValidationError') {
@@ -82,4 +82,17 @@ module.exports.updateAvatar = (req, res) => {
             }
             return res.status(500).send({ message: '500 — На сервере произошла ошибка.' });
         });
+}
+
+module.exports.login = (req, res) => {
+    const { email, password } = req.body;
+
+    return User.findUserByCredentials(email, password)
+        .then((user) => {
+            const token = jwt.sign({ _id: 'd285e3dceed844f902650f40' }, 'some-secret-key', { expiresIn: '7d' })
+            res.send({ token });
+        })
+        .catch((err) => {
+            res.status(401).send({ message: err.message });
+        })
 }

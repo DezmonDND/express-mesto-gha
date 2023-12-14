@@ -44,8 +44,8 @@ module.exports.getUsers = (req, res, next) => {
         });
 }
 
-module.exports.getUsersMe = (req, res, next) => {
-    User.findById(req.user._id)
+const findUserById = () => {
+    User.findById()
         .then((user) => {
             if (!user) {
                 next(new NotFoundError('Пользователь по указанному _id не найден.'));
@@ -53,20 +53,33 @@ module.exports.getUsersMe = (req, res, next) => {
                 res.status(200).send({ data: user });
             }
         })
+};
+
+module.exports.getUsersMe = (req, res, next) => {
+    // User.findById(req.user._id)
+    //     .then((user) => {
+    //         if (!user) {
+    //             next(new NotFoundError('Пользователь по указанному _id не найден.'));
+    //         } else {
+    //             res.status(200).send({ data: user });
+    //         }
+    //     })
+    findUserById(req.user._id)
         .catch((err) => {
             return next(err);
         });
 }
 
 module.exports.getOneUser = (req, res, next) => {
-    User.findById(req.params.userId)
-        .then((user) => {
-            if (!user) {
-                next(new NotFoundError('Пользователь по указанному _id не найден.'));
-            } else {
-                res.status(200).send({ data: user });
-            }
-        })
+    findUserById(req.params.userId)
+        // User.findById(req.params.userId)
+        //     .then((user) => {
+        //         if (!user) {
+        //             next(new NotFoundError('Пользователь по указанному _id не найден.'));
+        //         } else {
+        //             res.status(200).send({ data: user });
+        //         }
+        //     })
         .catch((err) => {
             if (err instanceof mongoose.Error.CastError) {
                 next(new BadRequestError('Переданы некорректные данные при поиске пользователя.'));

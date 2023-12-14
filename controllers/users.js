@@ -44,7 +44,7 @@ module.exports.getUsers = (req, res, next) => {
         });
 }
 
-const findUserById = (req, res, userData) => {
+const findUserById = (req, res, userData, next) => {
     User.findById(userData)
         .then((user) => {
             if (!user) {
@@ -53,6 +53,13 @@ const findUserById = (req, res, userData) => {
                 res.status(200).send({ data: user });
             }
         })
+        .catch((err) => {
+            if (err instanceof mongoose.Error.CastError) {
+                next(new BadRequestError('Переданы некорректные данные при поиске пользователя.'));
+            } else {
+                next(err);
+            }
+        });
 };
 
 module.exports.getUsersMe = (req, res, next) => {
@@ -65,10 +72,10 @@ module.exports.getUsersMe = (req, res, next) => {
     //             res.status(200).send({ data: user });
     //         }
     //     })
-    findUserById(req, res, userData)
-        .catch((err) => {
-            return next(err);
-        });
+    findUserById(req, res, userData, next);
+        // .catch((err) => {
+        //     return next(err);
+        // });
 }
 
 module.exports.getOneUser = (req, res, next) => {
@@ -81,14 +88,14 @@ module.exports.getOneUser = (req, res, next) => {
     //             res.status(200).send({ data: user });
     //         }
     //     })
-    findUserById(req, res, userData)
-        .catch((err) => {
-            if (err instanceof mongoose.Error.CastError) {
-                next(new BadRequestError('Переданы некорректные данные при поиске пользователя.'));
-            } else {
-                next(err);
-            }
-        });
+    findUserById(req, res, userData, next);
+        // .catch((err) => {
+        //     if (err instanceof mongoose.Error.CastError) {
+        //         next(new BadRequestError('Переданы некорректные данные при поиске пользователя.'));
+        //     } else {
+        //         next(err);
+        //     }
+        // });
 }
 
 module.exports.updateUsersData = (req, res, next) => {

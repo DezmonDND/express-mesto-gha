@@ -5,6 +5,7 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const AlreadyExistsError = require('../errors/AlreadyExistsError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const { default: mongoose } = require('mongoose');
 
 module.exports.createUser = (req, res, next) => {
     const { name, about, avatar, email, password } = req.body;
@@ -25,7 +26,7 @@ module.exports.createUser = (req, res, next) => {
             _id: user._id
         }))
         .catch((err) => {
-            if (err instanceof ValidationError) {
+            if (err instanceof mongoose.Error.ValidationError) {
                 next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
             } else if (err.code === 11000) {
                 next(new AlreadyExistsError('Пользователь уже существует'));
@@ -67,7 +68,7 @@ module.exports.getOneUser = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (err instanceof CastError) {
+            if (err instanceof mongoose.Error.CastError) {
                 next(new BadRequestError('Переданы некорректные данные при поиске пользователя.'));
             } else {
                 next(err);
@@ -93,7 +94,7 @@ module.exports.updateUsersData = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (err instanceof ValidationError) {
+            if (err instanceof mongoose.Error.ValidationError) {
                 next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя.'))
             } else {
                 next(err);
@@ -119,7 +120,7 @@ module.exports.updateAvatar = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (err instanceof ValidationError) {
+            if (err instanceof mongoose.Error.ValidationError) {
                 next(new BadRequestError('Переданы некорректные данные при обновлении аватара пользователя.'))
             } else {
                 next(err);

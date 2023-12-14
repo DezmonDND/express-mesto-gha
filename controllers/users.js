@@ -65,7 +65,7 @@ module.exports.getUsersMe = (req, res, next) => {
     //             res.status(200).send({ data: user });
     //         }
     //     })
-    findUserById(userData)
+    findUserById(req, res, userData)
         .catch((err) => {
             return next(err);
         });
@@ -81,7 +81,7 @@ module.exports.getOneUser = (req, res, next) => {
     //             res.status(200).send({ data: user });
     //         }
     //     })
-    findUserById(userData)
+    findUserById(req, res, userData)
         .catch((err) => {
             if (err instanceof mongoose.Error.CastError) {
                 next(new BadRequestError('Переданы некорректные данные при поиске пользователя.'));

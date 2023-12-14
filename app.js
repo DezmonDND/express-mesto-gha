@@ -1,12 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const auth = require('./middlewares/auth');
-const { createUser, login } = require('./controllers/users');
 const { errors } = require('celebrate');
-const { loginValidation, createUserValidation } = require('./middlewares/validationJoi');
 const NotFoundError = require('./errors/NotFoundError');
-
+const routes = require('./routes/index');
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -19,12 +16,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
     family: 4
 });
 
-app.post('/signin', loginValidation, login);
-app.post('/signup', createUserValidation, createUser);
-
-app.use('/users', auth, require('./routes/users'));
-app.use('/cards', auth, require('./routes/cards'));
-
+app.use(routes);
 app.use(errors());
 app.use('*', (req, res, next) => {
     next(new NotFoundError('Такого пути не существует.'));

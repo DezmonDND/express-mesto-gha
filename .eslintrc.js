@@ -1,6 +1,5 @@
 module.exports = {
   env: {
-    browser: true,
     es2021: true,
     node: true,
   },
@@ -23,6 +22,6 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    "allow": ["_id"]
+    'no-underscore-dangle': ['error', 'windows', { allow: ['_id'] }],
   },
 };

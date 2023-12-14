@@ -15,7 +15,7 @@ module.exports.createCard = (req, res, next) => {
     Card.create({ name, link, owner: req.user._id })
         .then((card) => res.status(201).send({ data: card }))
         .catch((err) => {
-            if (err.name === 'ValidationError') {
+            if (err instanceof ValidationError) {
                 next(new BadRequestError('Переданы некорректные данные при создании карточки.'));
             } else {
                 next(err);
@@ -63,7 +63,7 @@ module.exports.likeCard = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (err.name === 'CastError') {
+            if (err instanceof CastError) {
                 next(new BadRequestError('Переданы некорректные данные для постановки лайка.'));
             } else {
                 next(err);

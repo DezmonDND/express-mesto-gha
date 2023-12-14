@@ -25,7 +25,7 @@ module.exports.createUser = (req, res, next) => {
             _id: user._id
         }))
         .catch((err) => {
-            if (err.name === 'ValidationError') {
+            if (err instanceof ValidationError) {
                 next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
             } else if (err.code === 11000) {
                 next(new AlreadyExistsError('Пользователь уже существует'));
@@ -67,7 +67,7 @@ module.exports.getOneUser = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (err.name === 'CastError') {
+            if (err instanceof CastError) {
                 next(new BadRequestError('Переданы некорректные данные при поиске пользователя.'));
             } else {
                 next(err);
@@ -93,7 +93,7 @@ module.exports.updateUsersData = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (err.name === 'ValidationError') {
+            if (err instanceof ValidationError) {
                 next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя.'))
             } else {
                 next(err);
@@ -119,7 +119,7 @@ module.exports.updateAvatar = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (err.name === 'ValidationError') {
+            if (err instanceof ValidationError) {
                 next(new BadRequestError('Переданы некорректные данные при обновлении аватара пользователя.'))
             } else {
                 next(err);

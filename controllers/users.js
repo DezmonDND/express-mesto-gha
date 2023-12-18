@@ -160,6 +160,6 @@ module.exports.login = (req, res, next) => {
             res.send({ token });
         })
         .catch((err) => {
-            return next(new UnauthorizedError('Не удалось авторизоавться.'));
+            return next(err);
         })
 }
